@@ -61,7 +61,7 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-constraintlayoutCompose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-compose-ui-text = { module = "androidx.compose.ui:ui-text-google-fonts" }
-androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version = "1.7.0-alpha03" }
+androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidx-compose-ui-testJUnit = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-testManifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
