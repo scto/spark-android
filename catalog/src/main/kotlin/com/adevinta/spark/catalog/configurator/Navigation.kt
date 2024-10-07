@@ -22,36 +22,39 @@
 package com.adevinta.spark.catalog.configurator
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.adevinta.spark.catalog.configurator.component.ConfiguratorComponentScreen
 import com.adevinta.spark.catalog.model.Component
+import kotlinx.serialization.Serializable
 
-internal fun NavGraphBuilder.navGraph(
+@Serializable
+public object ConfiguratorsList
+
+@Serializable
+private data class ConfiguratorShowcase(
+    val componentId: Int,
+)
+
+internal fun NavGraphBuilder.configuratorsDestination(
     navController: NavHostController,
     components: List<Component>,
     contentPadding: PaddingValues,
 ) {
-    composable(route = ConfiguratorRoute) {
+    composable<ConfiguratorsList> {
         ComponentsListScreen(
             components = components,
-            navController = navController,
             contentPadding = contentPadding,
+            onConfiguratorClick = navController::navigateToConfiguratorShowcase,
         )
     }
 
-    composable(
-        route = "$ConfiguratorRoute/" +
-            "{$ComponentIdArgName}",
-        arguments = listOf(
-            navArgument(ComponentIdArgName) { type = NavType.IntType },
-        ),
-    ) { navBackStackEntry ->
-        val arguments = requireNotNull(navBackStackEntry.arguments) { "No arguments" }
-        val componentId = arguments.getInt(ComponentIdArgName)
+    composable<ConfiguratorShowcase> { navBackStackEntry ->
+        val configuratorShowcase = navBackStackEntry.toRoute<ConfiguratorShowcase>()
+        val componentId = configuratorShowcase.componentId
         val component = components.first { component -> component.configurator != null && component.id == componentId }
         ConfiguratorComponentScreen(
             component = component,
@@ -60,5 +63,6 @@ internal fun NavGraphBuilder.navGraph(
     }
 }
 
-internal const val ConfiguratorRoute = "configurator"
-internal const val ComponentIdArgName = "componentId"
+private fun NavController.navigateToConfiguratorShowcase(id: Int) {
+    navigate(route = ConfiguratorShowcase(componentId = id))
+}

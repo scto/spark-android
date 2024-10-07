@@ -60,9 +60,9 @@ public fun ConfiguratorComponentsScreen(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = ConfiguratorRoute,
+        startDestination = ConfiguratorsList,
         builder = {
-            navGraph(
+            configuratorsDestination(
                 navController = navController,
                 contentPadding = contentPadding,
                 components = components,
@@ -74,8 +74,8 @@ public fun ConfiguratorComponentsScreen(
 @Composable
 internal fun ComponentsListScreen(
     components: List<Component>,
-    navController: NavController,
     contentPadding: PaddingValues,
+    onConfiguratorClick: (Int) -> Unit,
 ) {
     val configuratorsComponents by remember(components) {
         mutableStateOf(components.filter { it.configurator != null })
@@ -130,8 +130,7 @@ internal fun ComponentsListScreen(
                     showExampleCount = false,
                     onClick = {
                         val componentId = component.id
-                        val route = "$ConfiguratorRoute/$componentId"
-                        navController.navigate(route)
+                        onConfiguratorClick(componentId)
                     },
                 )
             },
